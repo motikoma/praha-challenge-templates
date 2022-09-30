@@ -1,7 +1,7 @@
 // todo: ここに単体テストを書いてみましょう！
 
-import { asyncSumOfArray, sumOfArray } from "../functions"
-
+import { asyncSumOfArray, asyncSumOfArraySometimesZero, sumOfArray } from "../functions"
+import { DatabaseMock } from "../util";
 describe('sumOfArray', () => {
     test('1,2を渡すと3が返る', () => {
         expect(sumOfArray([1,2])).toBe(3);
@@ -42,3 +42,26 @@ describe("asyncSumOfArray", () => {
         return expect(asyncSumOfArray([])).rejects.toThrow()
     })
 });
+
+describe("asyncSumOfArraySometimesZero", () => {
+    // databaseが正常に処理を終えるパターン
+    // databaseがエラーを返すパターン
+
+    // const mockDatabase: DatabaseMock = jest.genMockFromModule("../util");
+    // mockDatabase.save = jest.fn().mockImplementation(() => {});
+
+
+    test("databaseのsaveに成功すると正常な計算結果を返す", async () => {
+        const saveSpy = jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {});
+
+        const mockDatabase = new DatabaseMock();
+        return expect(asyncSumOfArraySometimesZero([1,2], mockDatabase)).resolves.toBe(3);
+    })
+
+    test("databaseのsaveに失敗すると0を返す", async () => {
+        const saveSpy = jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {throw new Error("error")});
+
+        const mockDatabase = new DatabaseMock();
+        return expect(asyncSumOfArraySometimesZero([1,2], mockDatabase)).resolves.toBe(0);
+    })
+})
