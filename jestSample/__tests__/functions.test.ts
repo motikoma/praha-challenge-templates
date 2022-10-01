@@ -16,8 +16,8 @@ describe('sumOfArray', () => {
         expect(sumOfArray([-1,0])).toBe(-1);
     })
 
-    test('空配列を渡すと例外がthrowされる', () => {
-        expect(() => sumOfArray([])).toThrow();
+    test('空配列を渡すと0が返る', () => {
+        expect(sumOfArray([])).toEqual(0)
     })
 
     // 下記のテストはTypeScriptで担保されているので不要
@@ -39,8 +39,8 @@ describe("asyncSumOfArray", () => {
         return expect(asyncSumOfArray([-1,0])).resolves.toBe(-1)
     })
 
-    test("空配列を渡すと例外がthrowされる", async () => {
-        return expect(asyncSumOfArray([])).rejects.toThrow()
+    test("空配列を渡すと0が返る", async () => {
+        return expect(asyncSumOfArray([])).resolves.toBe(0);
     })
 });
 
