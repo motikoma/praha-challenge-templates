@@ -1,6 +1,6 @@
 import { StarWarsApiService } from "../StarWarsApiService";
 
-const getStarWarsCharacterType = async (starWarsApiService: StarWarsApiService, id: number): Promise<string> => {
+export const getStarWarsCharacterType = async (starWarsApiService: StarWarsApiService, id: number): Promise<string> => {
     const name = await starWarsApiService.getStarWarsCharacterName(id);
 
     if(name === "Luke Skywalker") return "JEDI"

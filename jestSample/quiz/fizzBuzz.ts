@@ -1,4 +1,4 @@
-const fizzbuzz = (num: number): string => {
+export const fizzbuzz = (num: number): string => {
     if (num % 15 === 0) {
         return "FizzBuzz";
     }
