@@ -1,4 +1,5 @@
 import { StarWarsApiService } from "../StarWarsApiService";
+import assert from 'assert';
 
 export const getStarWarsCharacterType = async (starWarsApiService: StarWarsApiService, id: number): Promise<string> => {
     const name = await starWarsApiService.getStarWarsCharacterName(id);
