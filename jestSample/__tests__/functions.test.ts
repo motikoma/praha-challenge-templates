@@ -17,7 +17,7 @@ describe('sumOfArray', () => {
     })
 
     test('空配列を渡すと0が返る', () => {
-        expect(sumOfArray([])).toEqual(0)
+        expect(sumOfArray([])).toBe(0)
     })
 
     // 下記のテストはTypeScriptで担保されているので不要
@@ -27,37 +27,43 @@ describe('sumOfArray', () => {
 });
 
 describe("asyncSumOfArray", () => {
-    test("1,2を渡すと3が返る", async () => {
+    test("1,2を渡すと3が返る", () => {
         return expect(asyncSumOfArray([1,2])).resolves.toBe(3)
     })
 
-    test("0を渡しても正常に計算される", async () => {
+    test("0を渡しても正常に計算される", () => {
         return expect(asyncSumOfArray([0,1])).resolves.toBe(1)
     })
 
-    test("負の値を渡しても正常に計算される", async () => {
+    test("負の値を渡しても正常に計算される", () => {
         return expect(asyncSumOfArray([-1,0])).resolves.toBe(-1)
     })
 
-    test("空配列を渡すと0が返る", async () => {
+    test("空配列を渡すと0が返る", () => {
         return expect(asyncSumOfArray([])).resolves.toBe(0);
     })
 });
 
 describe("asyncSumOfArraySometimesZero", () => {
 
-    test("databaseのsaveに成功すると正常な計算結果を返す", async () => {
-        jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {});
+    test("databaseのsaveに成功すると正常な計算結果を返す", () => {
+        const spy = jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {});
 
         const mockDatabase = new DatabaseMock();
-        return expect(asyncSumOfArraySometimesZero([1,2], mockDatabase)).resolves.toBe(3);
+        expect(asyncSumOfArraySometimesZero([1,2], mockDatabase)).resolves.toBe(3);
+        expect(spy).toHaveBeenCalled();
+
+        spy.mockRestore();
     })
 
-    test("databaseのsaveに失敗すると0を返す", async () => {
-        jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {throw new Error("error")});
+    test("databaseのsaveに失敗すると0を返す", () => {
+        const spy = jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {throw new Error("error")});
 
         const mockDatabase = new DatabaseMock();
-        return expect(asyncSumOfArraySometimesZero([1,2], mockDatabase)).resolves.toBe(0);
+        expect(asyncSumOfArraySometimesZero([1,2], mockDatabase)).resolves.toBe(0);
+        expect(spy).toHaveBeenCalled();
+
+        spy.mockRestore();
     })
 })
 
