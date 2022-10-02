@@ -50,20 +50,16 @@ describe("asyncSumOfArraySometimesZero", () => {
         const spy = jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {});
 
         const mockDatabase = new DatabaseMock();
-        expect(asyncSumOfArraySometimesZero([1,2], mockDatabase)).resolves.toBe(3);
-        expect(spy).toHaveBeenCalled();
 
-        spy.mockRestore();
+        return expect(asyncSumOfArraySometimesZero([1,2], mockDatabase)).resolves.toBe(3);
     })
 
     test("databaseのsaveに失敗すると0を返す", () => {
         const spy = jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {throw new Error("error")});
 
         const mockDatabase = new DatabaseMock();
-        expect(asyncSumOfArraySometimesZero([1,2], mockDatabase)).resolves.toBe(0);
-        expect(spy).toHaveBeenCalled();
 
-        spy.mockRestore();
+        return expect(asyncSumOfArraySometimesZero([1,2], mockDatabase)).resolves.toBe(0);
     })
 })
 
@@ -71,29 +67,32 @@ describe("getFirstNameThrowIfLong", () => {
 
     describe("NameApiServiceからfirstName取得に成功", () => {
 
-        test("firstNameがmaxNameLengthより短い場合はfirstNameを返す", async () => {
+        test("firstNameがmaxNameLengthより短い場合はfirstNameを返す", () => {
             jest.spyOn(NameApiService.prototype, "getFirstName").mockImplementation(() => Promise.resolve("john"));
 
             const maxNameLength = 4;
             const mockNameApiService = new NameApiService();
+
             return expect(getFirstNameThrowIfLong(maxNameLength, mockNameApiService)).resolves.toBe("john");
         })
 
-        test("firstNameがmaxNameLengthより長い場合に例外がthrowされる", async () => {
+        test("firstNameがmaxNameLengthより長い場合に例外がthrowされる", () => {
             jest.spyOn(NameApiService.prototype, "getFirstName").mockImplementation(() => Promise.resolve("john"));
 
             const maxNameLength = 3;
             const mockNameApiService = new NameApiService();
+
             return expect(getFirstNameThrowIfLong(maxNameLength, mockNameApiService)).rejects.toThrow("first_name too long");
         })
     })
 
     describe("NameApiServiceからfirstName取得に失敗", () => {
-        test("firstNameがNameApiServiceで規定されているMAX_LENGTHよりも大きい場合に例外がthrowされる", async () => {
+        test("firstNameがNameApiServiceで規定されているMAX_LENGTHよりも大きい場合に例外がthrowされる", () => {
             jest.spyOn(NameApiService.prototype, "getFirstName").mockImplementation(() => Promise.reject(new Error("firstName is too long!")));
 
             const maxNameLength = 4;
             const mockNameApiService = new NameApiService();
+
             return expect(getFirstNameThrowIfLong(maxNameLength, mockNameApiService)).rejects.toThrow("firstName is too long!");
         })
     })
