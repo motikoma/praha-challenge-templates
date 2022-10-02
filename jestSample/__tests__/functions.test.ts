@@ -1,5 +1,6 @@
 // todo: ここに単体テストを書いてみましょう！
 
+import {expect, jest, test} from '@jest/globals';
 import { asyncSumOfArray, asyncSumOfArraySometimesZero, getFirstNameThrowIfLong, sumOfArray } from "../functions"
 import { NameApiService } from "../nameApiService";
 import { DatabaseMock } from "../util";
@@ -47,7 +48,12 @@ describe("asyncSumOfArray", () => {
 describe("asyncSumOfArraySometimesZero", () => {
 
     test("databaseのsaveに成功すると正常な計算結果を返す", () => {
-        const spy = jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {});
+        // MEMO: おそらく下記のように書いても動くが設定でエラーになっているっぽい
+        // jest.mock("../util");
+        // const mockMethod = DatabaseMock.prototype.save as jest.MockedFunction<typeof DatabaseMock.prototype.save>;
+        // mockMethod.mockImplementation(() => ());
+
+        jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {});
 
         const mockDatabase = new DatabaseMock();
 
@@ -55,7 +61,7 @@ describe("asyncSumOfArraySometimesZero", () => {
     })
 
     test("databaseのsaveに失敗すると0を返す", () => {
-        const spy = jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {throw new Error("error")});
+        jest.spyOn(DatabaseMock.prototype, "save").mockImplementation(() => {throw new Error("error")});
 
         const mockDatabase = new DatabaseMock();
 
@@ -68,7 +74,7 @@ describe("getFirstNameThrowIfLong", () => {
     describe("NameApiServiceからfirstName取得に成功", () => {
 
         test("firstNameがmaxNameLengthより短い場合はfirstNameを返す", () => {
-            jest.spyOn(NameApiService.prototype, "getFirstName").mockImplementation(() => Promise.resolve("john"));
+            jest.spyOn(NameApiService.prototype, "getFirstName").mockResolvedValue("john");
 
             const maxNameLength = 4;
             const mockNameApiService = new NameApiService();
@@ -77,7 +83,7 @@ describe("getFirstNameThrowIfLong", () => {
         })
 
         test("firstNameがmaxNameLengthより長い場合に例外がthrowされる", () => {
-            jest.spyOn(NameApiService.prototype, "getFirstName").mockImplementation(() => Promise.resolve("john"));
+            jest.spyOn(NameApiService.prototype, "getFirstName").mockResolvedValue("john");
 
             const maxNameLength = 3;
             const mockNameApiService = new NameApiService();
@@ -88,7 +94,7 @@ describe("getFirstNameThrowIfLong", () => {
 
     describe("NameApiServiceからfirstName取得に失敗", () => {
         test("firstNameがNameApiServiceで規定されているMAX_LENGTHよりも大きい場合に例外がthrowされる", () => {
-            jest.spyOn(NameApiService.prototype, "getFirstName").mockImplementation(() => Promise.reject(new Error("firstName is too long!")));
+            jest.spyOn(NameApiService.prototype, "getFirstName").mockRejectedValue(new Error("firstName is too long!"));
 
             const maxNameLength = 4;
             const mockNameApiService = new NameApiService();
