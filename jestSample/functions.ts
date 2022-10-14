@@ -27,7 +27,7 @@ export const asyncSumOfArraySometimesZero = (
 
 export const getFirstNameThrowIfLong = async (
   maxNameLength: number,
-  nameApiService :NameApiService
+  nameApiService: NameApiService
 ): Promise<string> => {
   const firstName = await nameApiService.getFirstName();
 
