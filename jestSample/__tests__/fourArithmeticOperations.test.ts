@@ -45,11 +45,11 @@ describe("multiply", () => {
       expect(multiply(3)).toBe(3);
     });
 
-    test("引数に1個以上30個以下の数値を渡す場合、引数を返す", () => {
+    test("引数に1個以上30個以下の数値を渡す場合、計算結果を返す", () => {
       expect(multiply(3, 10, 3)).toBe(90);
     });
 
-    test("引数に30個の数値を渡す場合、引数を返す", () => {
+    test("引数に30個の数値を渡す場合、計算結果を返す", () => {
       const args = Array(30).fill(Number(1));
       expect(multiply(...args)).toBe(1);
     });
@@ -81,11 +81,11 @@ describe("add", () => {
       expect(add(3)).toBe(3);
     });
 
-    test("引数に1個以上30個以下の数値を渡す場合、引数を返す", () => {
+    test("引数に1個以上30個以下の数値を渡す場合、計算結果を返す", () => {
       expect(add(3, 10, 3)).toBe(16);
     });
 
-    test("引数に30個の数値を渡す場合、引数を返す", () => {
+    test("引数に30個の数値を渡す場合、計算結果を返す", () => {
       const args = Array(30).fill(Number(1));
       expect(add(...args)).toBe(30);
     });
@@ -115,11 +115,11 @@ describe("subtract", () => {
       expect(subtract(3)).toBe(3);
     });
 
-    test("引数に1個以上30個以下の数値を渡す場合、引数を返す", () => {
+    test("引数に1個以上30個以下の数値を渡す場合、計算結果を返す", () => {
       expect(subtract(10, 3)).toBe(7);
     });
 
-    test("引数に30個の数値を渡す場合、引数を返す", () => {
+    test("引数に30個の数値を渡す場合、計算結果を返す", () => {
       const args = Array(29).fill(Number(1));
       expect(subtract(30, ...args)).toBe(1);
     });
@@ -151,11 +151,11 @@ describe("divide", () => {
       expect(divide(3)).toBe(3);
     });
 
-    test("引数に1個以上30個以下の数値を渡す場合、引数を返す", () => {
+    test("引数に1個以上30個以下の数値を渡す場合、計算結果を返す", () => {
       expect(divide(10, 2)).toBe(5);
     });
 
-    test("引数に30個の数値を渡す場合、引数を返す", () => {
+    test("引数に30個の数値を渡す場合、計算結果を返す", () => {
       const args = Array(30).fill(Number(1));
       expect(divide(...args)).toBe(1);
     });
